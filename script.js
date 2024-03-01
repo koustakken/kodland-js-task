@@ -14,9 +14,13 @@ window.onload = () => {
 
   startButton.addEventListener("click", startGame);
   gameTime.addEventListener("change", timeChange);
+  gameTime.addEventListener("keyup", timeChange);
 
   function startGame() {
     startButton.classList.add("hide");
+    score = 0;
+    timeHeader.classList.remove("hide");
+    resultHeader.classList.add("hide");
     createSquare();
     timer = setInterval(function () {
       milliseconds--;
@@ -25,7 +29,9 @@ window.onload = () => {
         milliseconds = 99;
       }
 
-      timeDisplay.innerHTML = `${seconds}.${milliseconds.toString().padStart(1,'0')}`;
+      timeDisplay.innerHTML = `${seconds}.${milliseconds
+        .toString()
+        .padStart(1, "0")}`;
 
       if (seconds === 0 && milliseconds === 0) {
         clearInterval(timer);
@@ -39,7 +45,7 @@ window.onload = () => {
     resultHeader.classList.remove("hide");
     startButton.classList.remove("hide");
     resultDisplay.innerHTML = score;
-    game.innerHTML = '';
+    game.innerHTML = "";
   }
 
   function createSquare() {
@@ -49,19 +55,23 @@ window.onload = () => {
     square.style.width = Math.floor(Math.random() * 60) + 30 + "px";
     square.style.height = square.style.width;
 
-    square.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+    const colors = ['red', 'blue', 'yellow', 'black', 'white'];
+    square.style.backgroundColor = colors[Math.floor(Math.random() * 4)];
+
     square.style.position = "absolute";
 
     square.style.left = Math.floor(Math.random() * 240) + "px";
     square.style.top = Math.floor(Math.random() * 240) + "px";
 
-    game.appendChild(square);
+    
 
-    square.addEventListener("click", function () {
-      square.style.display = "none";
+    square.addEventListener('click', function(){
+      this.remove();
       score++;
       createSquare();
     });
+
+    game.appendChild(square);
   }
 
   function timeChange() {
