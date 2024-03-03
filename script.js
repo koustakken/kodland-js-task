@@ -22,6 +22,7 @@ window.onload = () => {
     timeHeader.classList.remove("hide");
     resultHeader.classList.add("hide");
     createSquare();
+    seconds = gameTime.value;
     timer = setInterval(function () {
       milliseconds--;
       if (milliseconds < 0) {
